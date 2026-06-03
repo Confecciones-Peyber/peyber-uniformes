@@ -1,4 +1,5 @@
-import { Component, ChangeDetectionStrategy, input, output, signal, computed } from '@angular/core';
+import { Component, ChangeDetectionStrategy, input, output, signal, computed, inject } from '@angular/core';
+import { Router } from '@angular/router';
 import { LucideBriefcase, LucideStethoscope, LucideShieldAlert, LucideGraduationCap, LucideTrophy, LucideCheckCircle, LucideArrowRight, LucideSparkles, LucideLayers, LucideChevronRight } from '@lucide/angular';
 import { CATEGORIES, PRODUCTS } from '../../core/data';
 import { Product, Category } from '../../core/types';
@@ -211,8 +212,9 @@ export class CatalogComponent {
     return cat ? cat.name.replace('Línea ', '') : '';
   }
 
+  private router = inject(Router);
+
   handleSelectToQuote(product: Product) {
-    this.selectProduct.emit(product);
-    this.scrollToSection.emit('quote-section');
+    this.router.navigate(['/product', product.id]);
   }
 }

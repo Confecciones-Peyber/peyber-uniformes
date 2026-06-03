@@ -1,4 +1,5 @@
 import { Component, ChangeDetectionStrategy, input, output, signal } from '@angular/core';
+import { Router } from '@angular/router';
 import { LucidePhone, LucideMail, LucideAward, LucideShirt, LucideMenu, LucideX, LucideMessageCircle } from '@lucide/angular';
 import { GENERAL_INFO } from '../../core/data';
 
@@ -14,26 +15,6 @@ import { GENERAL_INFO } from '../../core/data';
       id="main-header"
       [class]="'fixed top-0 left-0 right-0 z-50 bg-white transition-all duration-300 ' + (isScrolled() ? 'border-b border-slate-200 shadow-sm py-2' : 'border-b border-transparent py-3')"
     >
-      <!-- Top micro-bar for contact -->
-      <div class="hidden md:block max-w-7xl mx-auto px-6 pb-2 text-xs border-b border-slate-200 text-slate-500">
-        <div class="flex justify-between items-center">
-          <div class="flex items-center gap-4">
-            <span class="flex items-center gap-1">
-              <svg lucidePhone class="w-3.5 h-3.5 text-blue-600"></svg>
-              {{ generalInfo.phone }}
-            </span>
-            <span class="flex items-center gap-1">
-              <svg lucideMail class="w-3.5 h-3.5 text-blue-600"></svg>
-              {{ generalInfo.email }}
-            </span>
-          </div>
-          <div class="flex items-center gap-2">
-            <svg lucideAward class="w-3.5 h-3.5 text-blue-600"></svg>
-            <span>Uniformes Profesionales Certificados</span>
-          </div>
-        </div>
-      </div>
-
       <div class="max-w-7xl mx-auto px-6 py-2 flex justify-between items-center">
         <!-- Brand Logo -->
         <button
@@ -61,11 +42,21 @@ import { GENERAL_INFO } from '../../core/data';
 
         <!-- CTA Actions -->
         <div class="hidden md:flex items-center gap-4">
+          <a
+            [href]="generalInfo.instagram"
+            target="_blank"
+            rel="noreferrer"
+            class="flex items-center gap-1.5 px-4 py-2 text-sm font-semibold text-pink-600 bg-pink-50 hover:bg-pink-100 hover:text-pink-700 focus:ring-2 focus:ring-pink-500 focus:outline-none rounded-full transition-colors duration-200 border border-pink-100"
+            title="Síguenos en Instagram"
+          >
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-4 h-4"><rect width="20" height="20" x="2" y="2" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" x2="17.51" y1="6.5" y2="6.5"/></svg>
+            <span>Instagram</span>
+          </a>
           <button
-            (click)="handleItemClick('quote-section')"
+            (click)="handleItemClick('contact')"
             class="cursor-pointer flex items-center gap-1.5 px-6 py-2 text-sm font-semibold text-white bg-blue-600 hover:bg-blue-700 focus:ring-2 focus:ring-blue-500 focus:outline-none rounded-full transition-colors duration-200"
           >
-            <span>Cotizar Ahora</span>
+            <span>Contáctanos</span>
           </button>
         </div>
 
@@ -98,20 +89,31 @@ import { GENERAL_INFO } from '../../core/data';
           </nav>
           <div class="pt-4 border-t border-slate-200 flex flex-col gap-3">
             <button
-              (click)="handleItemClick('quote-section')"
+              (click)="handleItemClick('contact')"
               class="w-full flex items-center justify-center gap-2 py-3 text-sm font-semibold text-white bg-blue-600 hover:bg-blue-700 rounded-full transition-colors cursor-pointer"
             >
-              Crear Cotización
+              Contáctanos
             </button>
-            <a
-              [href]="'https://wa.me/' + generalInfo.phoneFormatted"
-              target="_blank"
-              rel="noreferrer"
-              class="w-full flex items-center justify-center gap-2 py-3 text-sm font-semibold text-slate-700 border border-slate-200 hover:bg-slate-50 rounded-full"
-            >
-              <svg lucideMessageCircle class="w-4 h-4 text-green-500"></svg>
-              <span>Asesor Comercial</span>
-            </a>
+            <div class="flex gap-2">
+              <a
+                [href]="'https://wa.me/' + generalInfo.phoneFormatted"
+                target="_blank"
+                rel="noreferrer"
+                class="flex-1 flex items-center justify-center gap-2 py-3 text-sm font-semibold text-slate-700 border border-slate-200 hover:bg-slate-50 rounded-full"
+              >
+                <svg lucideMessageCircle class="w-4 h-4 text-green-500"></svg>
+                <span>Asesor</span>
+              </a>
+              <a
+                [href]="generalInfo.instagram"
+                target="_blank"
+                rel="noreferrer"
+                class="flex-1 flex items-center justify-center gap-2 py-3 text-sm font-semibold text-slate-700 border border-slate-200 hover:bg-pink-50 hover:text-pink-600 rounded-full transition-colors"
+              >
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-4 h-4"><rect width="20" height="20" x="2" y="2" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" x2="17.51" y1="6.5" y2="6.5"/></svg>
+                <span>Instagram</span>
+              </a>
+            </div>
           </div>
         </div>
       }
@@ -119,21 +121,20 @@ import { GENERAL_INFO } from '../../core/data';
   `
 })
 export class HeaderComponent {
-  activeSection = input<string>('hero');
-  navigate = output<string>();
-
   isScrolled = signal(false);
   isMobileMenuOpen = signal(false);
+  activeSection = signal<string>('hero');
 
   generalInfo = GENERAL_INFO;
 
   menuItems = [
     { id: "hero", label: "Inicio" },
-    { id: "categories", label: "Categorías" },
-    { id: "catalog", label: "Catálogo" },
-    { id: "quote-section", label: "Cotizador" },
+    { id: "catalog-section", label: "Catálogo" },
+    { id: "services-section", label: "Servicios" },
     { id: "contact", label: "Contacto" }
   ];
+
+  constructor(private router: Router) {}
 
   onWindowScroll() {
     this.isScrolled.set(window.scrollY > 20);
@@ -144,7 +145,7 @@ export class HeaderComponent {
   }
 
   handleItemClick(id: string) {
-    this.navigate.emit(id);
+    this.router.navigate(['/'], { fragment: id });
     this.isMobileMenuOpen.set(false);
   }
 }

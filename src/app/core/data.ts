@@ -251,6 +251,8 @@ export const GENERAL_INFO = {
   phone: "04145082446",
   phoneFormatted: "+584145082446",
   email: "confeccionespeyber@gmail.com",
+  instagram: "https://www.instagram.com/uniformes_peyber/",
+  whatsappMessage: "¡Hola PeyBer! Me gustaría obtener más información sobre sus servicios y uniformes.",
   address: "Barquisimeto, Estado Lara, Venezuela",
   hours: "Lunes a Viernes 8:00 AM - 5:00 PM",
   companyName: "PeyBer Uniformes",

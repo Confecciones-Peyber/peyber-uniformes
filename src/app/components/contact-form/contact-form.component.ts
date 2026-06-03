@@ -8,7 +8,7 @@ import { GENERAL_INFO } from '../../core/data';
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [FormsModule, LucideMail, LucidePhone, LucideMapPin, LucideClock, LucideSend, LucideCheck, LucideHeartHandshake, LucideFileSpreadsheet],
   template: `
-    <section id="contact" class="py-24 bg-white relative">
+    <section id="contact" class="pt-12 pb-24 bg-white relative">
       <div class="max-w-7xl mx-auto px-6">
         
         <!-- Section Header -->

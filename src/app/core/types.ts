@@ -7,6 +7,7 @@ export interface Product {
   colors: { name: string; hex: string }[];
   sizes: string[];
   imageUrl: string;
+  gallery?: string[];
   basePrice: number;
   features: string[];
 }
