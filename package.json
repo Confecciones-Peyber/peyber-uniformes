@@ -2,10 +2,11 @@
   "name": "peyber-uniformes-ng",
   "version": "0.0.0",
   "scripts": {
+    "env-setup": "node setenv.js",
     "ng": "ng",
-    "start": "ng serve",
-    "build": "ng build",
-    "watch": "ng build --watch --configuration development",
+    "start": "yarn env-setup && ng serve",
+    "build": "yarn env-setup && ng build",
+    "watch": "yarn env-setup && ng build --watch --configuration development",
     "test": "ng test"
   },
   "prettier": {
@@ -40,6 +41,7 @@
     "@angular/compiler-cli": "^21.1.0",
     "@tailwindcss/postcss": "^4.3.0",
     "autoprefixer": "^10.5.0",
+    "dotenv": "^17.4.2",
     "jsdom": "^27.1.0",
     "postcss": "^8.5.15",
     "tailwindcss": "^3",

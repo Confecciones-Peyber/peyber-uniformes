@@ -26,6 +26,8 @@ jobs:
         run: yarn install --frozen-lockfile
 
       - name: Build project
+        env:
+          API_URL: ${{ secrets.API_URL }}
         run: yarn build
 
       - name: Deploy to GitHub Pages
