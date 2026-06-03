@@ -1,0 +1,119 @@
+import { Component, ChangeDetectionStrategy, output } from '@angular/core';
+import { LucideShirt, LucidePhone, LucideMail, LucideMapPin, LucideClock, LucideAward } from '@lucide/angular';
+import { GENERAL_INFO } from '../../core/data';
+
+@Component({
+  selector: 'app-footer',
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  imports: [LucideShirt, LucidePhone, LucideMail, LucideMapPin, LucideClock, LucideAward],
+  template: `
+    <footer id="main-footer" class="bg-slate-950 text-slate-400 border-t border-slate-900 pt-16 pb-8">
+      <div class="max-w-7xl mx-auto px-6 grid grid-cols-1 md:grid-cols-12 gap-10 mb-12">
+        
+        <!-- Brand details Column -->
+        <div class="md:col-span-5 space-y-4">
+          <div class="flex items-center gap-2">
+            <img src="/logo.svg?v=5" alt="PeyBer Uniformes" class="h-10 md:h-12 lg:h-16 w-auto object-contain brightness-0 invert drop-shadow-sm transition-transform hover:scale-105 duration-300" />
+          </div>
+          <p class="text-xs text-slate-400 leading-relaxed max-w-sm text-left">
+            {{ generalInfo.companyDescription }} Liderando el mercado de ropa de trabajo en el centroccidente del país.
+          </p>
+          <div class="flex items-center gap-1.5 text-xs text-slate-500">
+            <svg lucideAward class="w-4 h-4 text-blue-500"></svg>
+            <span>Telas certificadas con garantía anti-pilling</span>
+          </div>
+        </div>
+
+        <!-- Quick Nav links -->
+        <div class="md:col-span-3 text-left space-y-4">
+          <h4 class="text-sm font-bold text-white uppercase tracking-wider font-mono">
+            Explorar Catálogo
+          </h4>
+          <ul class="space-y-2 text-xs">
+            <li>
+              <button (click)="onNavigate.emit('catalog')" class="hover:text-blue-400 cursor-pointer transition-colors text-left w-full">
+                Línea Administrativa / Sastrería
+              </button>
+            </li>
+            <li>
+              <button (click)="onNavigate.emit('catalog')" class="hover:text-blue-400 cursor-pointer transition-colors text-left w-full">
+                Línea Hospitalaria / Scrubs
+              </button>
+            </li>
+            <li>
+              <button (click)="onNavigate.emit('catalog')" class="hover:text-blue-400 cursor-pointer transition-colors text-left w-full">
+                Línea Industrial y de Seguridad
+              </button>
+            </li>
+            <li>
+              <button (click)="onNavigate.emit('catalog')" class="hover:text-blue-400 cursor-pointer transition-colors text-left w-full">
+                Línea Escolar y Polos
+              </button>
+            </li>
+            <li>
+              <button (click)="onNavigate.emit('catalog')" class="hover:text-blue-400 cursor-pointer transition-colors text-left w-full">
+                Línea Deportiva Sublimada
+              </button>
+            </li>
+          </ul>
+        </div>
+
+        <!-- Direct Contact column -->
+        <div class="md:col-span-4 text-left space-y-4">
+          <h4 class="text-sm font-bold text-white uppercase tracking-wider font-mono">
+            Atención al Cliente
+          </h4>
+          <ul class="space-y-3 text-xs text-slate-400">
+            <li class="flex items-start gap-2">
+              <svg lucidePhone class="w-4 h-4 text-blue-500 mt-0.5 flex-shrink-0"></svg>
+              <span>
+                Teléfono: 
+                <a [href]="'tel:' + generalInfo.phone" class="hover:text-white font-mono font-medium">
+                  {{ generalInfo.phone }}
+                </a>
+              </span>
+            </li>
+            <li class="flex items-start gap-2">
+              <svg lucideMail class="w-4 h-4 text-blue-500 mt-0.5 flex-shrink-0"></svg>
+              <span>
+                Correo: 
+                <a [href]="'mailto:' + generalInfo.email" class="hover:text-white font-mono">
+                  {{ generalInfo.email }}
+                </a>
+              </span>
+            </li>
+            <li class="flex items-start gap-2">
+              <svg lucideMapPin class="w-4 h-4 text-blue-500 mt-0.5 flex-shrink-0"></svg>
+              <span class="leading-relaxed">{{ generalInfo.address }}</span>
+            </li>
+            <li class="flex items-start gap-2">
+              <svg lucideClock class="w-4 h-4 text-blue-500 mt-0.5 flex-shrink-0"></svg>
+              <span>{{ generalInfo.hours }}</span>
+            </li>
+          </ul>
+        </div>
+
+      </div>
+
+      <!-- Copy info bar -->
+      <div class="max-w-7xl mx-auto px-6 pt-8 border-t border-slate-900/60 flex flex-col sm:flex-row justify-between items-center text-xs text-slate-500 gap-4">
+        <div>
+          © {{ year }} <strong>{{ generalInfo.companyName }}</strong>. Todos los derechos reservados. Barquisimeto, Venezuela.
+        </div>
+        <div class="flex gap-4">
+          <button (click)="onNavigate.emit('hero')" class="hover:text-slate-300 cursor-pointer">
+            Volver Arriba ↑
+          </button>
+        </div>
+      </div>
+    </footer>
+  `
+})
+export class FooterComponent {
+  onNavigate = output<string>();
+  
+  generalInfo = GENERAL_INFO;
+  year = new Date().getFullYear();
+}
+
+

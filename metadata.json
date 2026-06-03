@@ -1,0 +1,6 @@
+{
+  "name": "PeyBer Uniformes",
+  "description": "Plataforma de uniformes profesionales con catálogo interactivo, cotizador digital y contacto directo por WhatsApp.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
