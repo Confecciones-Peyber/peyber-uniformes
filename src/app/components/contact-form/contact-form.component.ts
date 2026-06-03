@@ -1,12 +1,12 @@
 import { Component, ChangeDetectionStrategy, signal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { LucideMail, LucidePhone, LucideMapPin, LucideClock, LucideSend, LucideCheck, LucideHeartHandshake, LucideFileSpreadsheet } from '@lucide/angular';
+import { LucideMail, LucidePhone, LucideMapPin, LucideClock, LucideSend, LucideCheck, LucideFileSpreadsheet } from '@lucide/angular';
 import { GENERAL_INFO } from '../../core/data';
 
 @Component({
   selector: 'app-contact-form',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [FormsModule, LucideMail, LucidePhone, LucideMapPin, LucideClock, LucideSend, LucideCheck, LucideHeartHandshake, LucideFileSpreadsheet],
+  imports: [FormsModule, LucideMail, LucidePhone, LucideMapPin, LucideClock, LucideSend, LucideCheck, LucideFileSpreadsheet],
   template: `
     <section id="contact" class="pt-12 pb-24 bg-white relative">
       <div class="max-w-7xl mx-auto px-6">

@@ -1,13 +1,13 @@
 import { Component, ChangeDetectionStrategy, input, output, signal, computed, inject } from '@angular/core';
 import { Router } from '@angular/router';
-import { LucideBriefcase, LucideStethoscope, LucideShieldAlert, LucideGraduationCap, LucideTrophy, LucideCheckCircle, LucideArrowRight, LucideSparkles, LucideLayers, LucideChevronRight } from '@lucide/angular';
+import { LucideBriefcase, LucideStethoscope, LucideShieldAlert, LucideGraduationCap, LucideTrophy, LucideCheckCircle, LucideLayers, LucideChevronRight } from '@lucide/angular';
 import { CATEGORIES, PRODUCTS } from '../../core/data';
 import { Product, Category } from '../../core/types';
 
 @Component({
   selector: 'app-catalog',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [LucideBriefcase, LucideStethoscope, LucideShieldAlert, LucideGraduationCap, LucideTrophy, LucideCheckCircle, LucideArrowRight, LucideSparkles, LucideLayers, LucideChevronRight],
+  imports: [LucideBriefcase, LucideStethoscope, LucideShieldAlert, LucideGraduationCap, LucideTrophy, LucideCheckCircle, LucideLayers, LucideChevronRight],
   template: `
     <section id="catalog-section" class="py-24 bg-slate-50 border-t border-slate-200">
       <div class="max-w-7xl mx-auto px-6">

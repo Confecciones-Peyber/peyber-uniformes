@@ -1,12 +1,12 @@
 import { Component, ChangeDetectionStrategy, input, output, signal } from '@angular/core';
 import { Router } from '@angular/router';
-import { LucidePhone, LucideMail, LucideAward, LucideShirt, LucideMenu, LucideX, LucideMessageCircle } from '@lucide/angular';
+import { LucideMenu, LucideX, LucideMessageCircle } from '@lucide/angular';
 import { GENERAL_INFO } from '../../core/data';
 
 @Component({
   selector: 'app-header',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [LucidePhone, LucideMail, LucideAward, LucideShirt, LucideMenu, LucideX, LucideMessageCircle],
+  imports: [LucideMenu, LucideX, LucideMessageCircle],
   host: {
     '(window:scroll)': 'onWindowScroll()',
   },

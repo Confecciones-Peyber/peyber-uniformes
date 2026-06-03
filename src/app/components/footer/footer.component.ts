@@ -1,11 +1,11 @@
 import { Component, ChangeDetectionStrategy, output } from '@angular/core';
-import { LucideShirt, LucidePhone, LucideMail, LucideMapPin, LucideClock, LucideAward } from '@lucide/angular';
+import { LucidePhone, LucideMail, LucideMapPin, LucideClock, LucideAward } from '@lucide/angular';
 import { GENERAL_INFO } from '../../core/data';
 
 @Component({
   selector: 'app-footer',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [LucideShirt, LucidePhone, LucideMail, LucideMapPin, LucideClock, LucideAward],
+  imports: [LucidePhone, LucideMail, LucideMapPin, LucideClock, LucideAward],
   template: `
     <footer id="main-footer" class="bg-slate-950 text-slate-400 border-t border-slate-900 pt-16 pb-8">
       <div class="max-w-7xl mx-auto px-6 grid grid-cols-1 md:grid-cols-12 gap-10 mb-12">
