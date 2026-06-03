@@ -31,6 +31,6 @@ jobs:
       - name: Deploy to GitHub Pages
         uses: JamesIves/github-pages-deploy-action@v4
         with:
-          folder: dist/peyber-landing/browser
+          folder: dist/peyber-uniformes-ng/browser
           branch: gh-pages
           clean: true
