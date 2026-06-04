@@ -10,7 +10,8 @@ const targetPath = './src/environments/environment.ts';
 // Leer las variables de entorno
 const envConfigFile = `export const environment = {
   production: ${process.env['NODE_ENV'] === 'production' ? 'true' : 'false'},
-  apiUrl: '${process.env['API_URL'] || 'http://localhost:3000'}'
+  apiUrl: '${process.env['API_URL'] || 'http://localhost:3000/api/v1'}',
+  catalogApiKey: '${process.env['CATALOG_API_KEY'] || 'peyber_catalog_dev_secret_key_2026'}'
 };
 `;
 

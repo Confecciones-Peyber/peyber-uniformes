@@ -1,7 +1,8 @@
 export interface Product {
-  id: string;
+  id?: string;
+  _id?: string;
   name: string;
-  category: string;
+  category: any;
   description: string;
   materials: string[];
   colors: { name: string; hex: string }[];
@@ -10,6 +11,7 @@ export interface Product {
   gallery?: string[];
   basePrice: number;
   features: string[];
+  status?: boolean;
 }
 
 export interface QuoteRequest {
@@ -26,9 +28,11 @@ export interface QuoteRequest {
 }
 
 export interface Category {
-  id: string;
+  id?: string;
+  _id?: string;
   name: string;
   description: string;
   iconName: string;
   heroImage: string;
+  status?: boolean;
 }

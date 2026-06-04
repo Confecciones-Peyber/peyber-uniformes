@@ -5,7 +5,6 @@ import { CatalogComponent } from '../../components/catalog/catalog.component';
 import { ServicesComponent } from '../../components/services/services.component';
 import { ContactFormComponent } from '../../components/contact-form/contact-form.component';
 import { Product } from '../../core/types';
-import { PRODUCTS } from '../../core/data';
 
 @Component({
   selector: 'app-home',
@@ -39,11 +38,7 @@ import { PRODUCTS } from '../../core/data';
 export class HomeComponent {
   selectedProduct = signal<Product | null>(null);
 
-  constructor(@Inject(PLATFORM_ID) private platformId: Object) {
-    if (PRODUCTS.length > 0 && !this.selectedProduct()) {
-      this.selectedProduct.set(PRODUCTS[0]);
-    }
-  }
+  constructor(@Inject(PLATFORM_ID) private platformId: Object) {}
 
   setSelectedProduct(prod: Product) {
     this.selectedProduct.set(prod);
@@ -71,3 +66,4 @@ export class HomeComponent {
     // For now, we keep it simple.
   }
 }
+
