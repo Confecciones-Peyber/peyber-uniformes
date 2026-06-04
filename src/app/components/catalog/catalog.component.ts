@@ -1,8 +1,8 @@
-import { Component, ChangeDetectionStrategy, input, output, signal, computed, inject } from '@angular/core';
+import { Component, ChangeDetectionStrategy, input, output, signal, computed, inject, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { LucideBriefcase, LucideStethoscope, LucideShieldAlert, LucideGraduationCap, LucideTrophy, LucideCheckCircle, LucideLayers, LucideChevronRight } from '@lucide/angular';
-import { CATEGORIES, PRODUCTS } from '../../core/data';
 import { Product, Category } from '../../core/types';
+import { CatalogService } from '../../core/catalog.service';
 
 @Component({
   selector: 'app-catalog',
@@ -36,12 +36,12 @@ import { Product, Category } from '../../core/types';
             <span class="text-sm font-semibold">Todos</span>
           </button>
 
-          @for (cat of categories; track cat.id) {
+          @for (cat of categories(); track cat.id || cat._id || '') {
             <button
-              (click)="selectedCategory.set(cat.id)"
-              [class]="'cursor-pointer px-6 py-2.5 rounded-full border text-center transition-all duration-200 flex items-center gap-2 ' + (selectedCategory() === cat.id ? 'bg-blue-600 border-blue-600 text-white shadow-md' : 'bg-white border-slate-200 text-slate-600 hover:border-slate-300 hover:bg-slate-50')"
+              (click)="selectedCategory.set(cat.id || cat._id || '')"
+              [class]="'cursor-pointer px-6 py-2.5 rounded-full border text-center transition-all duration-200 flex items-center gap-2 ' + (selectedCategory() === (cat.id || cat._id || '') ? 'bg-blue-600 border-blue-600 text-white shadow-md' : 'bg-white border-slate-200 text-slate-600 hover:border-slate-300 hover:bg-slate-50')"
             >
-              <div [class]="selectedCategory() === cat.id ? 'text-white' : 'text-blue-600'">
+              <div [class]="selectedCategory() === (cat.id || cat._id || '') ? 'text-white' : 'text-blue-600'">
                 @switch (cat.iconName) {
                   @case ('Briefcase') { <svg lucideBriefcase class="w-4 h-4"></svg> }
                   @case ('Stethoscope') { <svg lucideStethoscope class="w-4 h-4"></svg> }
@@ -100,7 +100,7 @@ import { Product, Category } from '../../core/types';
 
         <!-- Product Grid -->
         <div id="catalog" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-          @for (product of filteredProducts(); track product.id) {
+          @for (product of filteredProducts(); track product.id || product._id || '') {
             <div
               class="bg-white rounded-[2rem] border border-slate-200 overflow-hidden shadow-md hover:shadow-xl transition-all duration-300 flex flex-col h-full text-left group animate-in zoom-in-95 fade-in duration-300"
             >
@@ -135,9 +135,11 @@ import { Product, Category } from '../../core/types';
                     <h4 class="text-xl font-bold text-slate-900 group-hover:text-blue-600 transition-colors duration-200">
                       {{ product.name }}
                     </h4>
-                    <p class="text-slate-500 text-sm mt-1 font-medium">
-                      🧵 Mat: {{ product.materials[0] }}
-                    </p>
+                    @if (product.materials && product.materials.length > 0) {
+                      <p class="text-slate-500 text-sm mt-1 font-medium">
+                        🧵 Mat: {{ product.materials[0] }}
+                      </p>
+                    }
                   </div>
 
                   <p class="text-slate-600 text-sm leading-relaxed line-clamp-3">
@@ -145,30 +147,34 @@ import { Product, Category } from '../../core/types';
                   </p>
 
                   <!-- Uniform features list -->
-                  <div class="space-y-2 pt-3 border-t border-slate-100">
-                    @for (feat of product.features.slice(0, 2); track $index) {
-                       <div class="flex items-start gap-2 text-sm text-slate-700">
-                         <svg lucideCheckCircle class="w-4 h-4 text-blue-600 mt-0.5 flex-shrink-0"></svg>
-                         <span class="line-clamp-1">{{ feat }}</span>
-                       </div>
-                    }
-                  </div>
+                  @if (product.features && product.features.length > 0) {
+                    <div class="space-y-2 pt-3 border-t border-slate-100">
+                      @for (feat of product.features.slice(0, 2); track $index) {
+                         <div class="flex items-start gap-2 text-sm text-slate-700">
+                           <svg lucideCheckCircle class="w-4 h-4 text-blue-600 mt-0.5 flex-shrink-0"></svg>
+                           <span class="line-clamp-1">{{ feat }}</span>
+                         </div>
+                      }
+                    </div>
+                  }
 
                   <!-- Previews of colors selectable -->
-                  <div class="pt-3">
-                     <p class="text-xs font-bold text-slate-500 uppercase tracking-wider mb-2">
-                       Colores Disponibles
-                     </p>
-                     <div class="flex gap-2">
-                       @for (color of product.colors; track $index) {
-                         <div
-                           [title]="color.name"
-                           class="w-5 h-5 rounded-full border border-slate-200 shadow-sm"
-                           [style.backgroundColor]="color.hex"
-                         ></div>
-                       }
-                     </div>
-                  </div>
+                  @if (product.colors && product.colors.length > 0) {
+                    <div class="pt-3">
+                       <p class="text-xs font-bold text-slate-500 uppercase tracking-wider mb-2">
+                         Colores Disponibles
+                       </p>
+                       <div class="flex gap-2">
+                         @for (color of product.colors; track $index) {
+                           <div
+                             [title]="color.name"
+                             class="w-5 h-5 rounded-full border border-slate-200 shadow-sm"
+                             [style.backgroundColor]="color.hex"
+                           ></div>
+                         }
+                       </div>
+                    </div>
+                  }
                 </div>
 
                 <!-- Actions Section -->
@@ -189,32 +195,61 @@ import { Product, Category } from '../../core/types';
     </section>
   `
 })
-export class CatalogComponent {
+export class CatalogComponent implements OnInit {
   selectProduct = output<Product>();
   scrollToSection = output<string>();
 
-  categories = CATEGORIES;
-  products = PRODUCTS;
+  private catalogService = inject(CatalogService);
+  private router = inject(Router);
+
+  categories = signal<Category[]>([]);
+  products = signal<Product[]>([]);
   selectedCategory = signal<string>('all');
 
   currentCategory = computed(() => {
-    return this.categories.find(c => c.id === this.selectedCategory());
+    return this.categories().find(c => c.id === this.selectedCategory() || (c as any)._id === this.selectedCategory());
   });
 
   filteredProducts = computed(() => {
     const cat = this.selectedCategory();
-    if (cat === 'all') return this.products;
-    return this.products.filter(p => p.category === cat);
+    if (cat === 'all') return this.products();
+    return this.products().filter(p => {
+      const pCatId = typeof p.category === 'object' ? ((p.category as any).id || (p.category as any)._id) : p.category;
+      return pCatId === cat;
+    });
   });
 
-  getCategoryName(categoryId: string): string {
-    const cat = this.categories.find(c => c.id === categoryId);
+  ngOnInit() {
+    this.catalogService.getCategories().subscribe({
+      next: (cats) => {
+        this.categories.set(cats);
+      },
+      error: (err) => {
+        console.error('Error loading public categories:', err);
+      }
+    });
+
+    this.catalogService.getProducts().subscribe({
+      next: (prods) => {
+        this.products.set(prods);
+      },
+      error: (err) => {
+        console.error('Error loading public products:', err);
+      }
+    });
+  }
+
+  getCategoryName(catRef: string | any): string {
+    if (typeof catRef === 'object' && catRef !== null) {
+      return catRef.name.replace('Línea ', '');
+    }
+    const cat = this.categories().find(c => c.id === catRef || (c as any)._id === catRef);
     return cat ? cat.name.replace('Línea ', '') : '';
   }
 
-  private router = inject(Router);
-
   handleSelectToQuote(product: Product) {
-    this.router.navigate(['/product', product.id]);
+    const id = product.id || (product as any)._id;
+    this.router.navigate(['/product', id]);
   }
 }
+
