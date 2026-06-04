@@ -43,8 +43,18 @@ import { CatalogService } from '../../core/catalog.service';
             </div>
 
             <!-- Main Image -->
-            <div class="flex-grow aspect-[4/5] bg-slate-100 rounded-3xl overflow-hidden border border-slate-200 relative">
-              <img [src]="mainImage()" [alt]="product()!.name" class="w-full h-full object-cover animate-in zoom-in-95 duration-300" />
+            <div 
+              class="flex-grow aspect-[4/5] bg-slate-100 rounded-3xl overflow-hidden border border-slate-200 relative cursor-zoom-in"
+              (mousemove)="onMouseMove($event)"
+              (mouseleave)="onMouseLeave()"
+            >
+              <img 
+                [src]="mainImage()" 
+                [alt]="product()!.name" 
+                class="w-full h-full object-cover transition-transform duration-100 ease-out origin-center"
+                [style.transform]="isZoomed() ? 'scale(2.2)' : 'scale(1)'"
+                [style.transformOrigin]="zoomOrigin()"
+              />
             </div>
 
           </div>
@@ -198,6 +208,23 @@ export class ProductDetailComponent implements OnInit {
   });
 
   mainImage = signal<string>('');
+  
+  isZoomed = signal<boolean>(false);
+  zoomOrigin = signal<string>('center center');
+
+  onMouseMove(event: MouseEvent) {
+    const container = event.currentTarget as HTMLElement;
+    const rect = container.getBoundingClientRect();
+    const x = ((event.clientX - rect.left) / rect.width) * 100;
+    const y = ((event.clientY - rect.top) / rect.height) * 100;
+    this.isZoomed.set(true);
+    this.zoomOrigin.set(`${x}% ${y}%`);
+  }
+
+  onMouseLeave() {
+    this.isZoomed.set(false);
+    this.zoomOrigin.set('center center');
+  }
   
   selectedColor = signal<{name: string, hex: string} | null>(null);
   selectedSize = signal<string>('');
