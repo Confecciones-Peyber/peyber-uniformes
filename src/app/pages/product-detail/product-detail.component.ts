@@ -136,14 +136,7 @@ import { CatalogService } from '../../core/catalog.service';
                 class="flex-1 flex items-center justify-center gap-2 bg-green-500 hover:bg-green-600 text-white font-bold py-4 px-6 rounded-full transition-transform active:scale-95 shadow-lg shadow-green-500/30 cursor-pointer"
               >
                 <svg lucideMessageCircle class="w-5 h-5"></svg>
-                Cotizar por WhatsApp
-              </button>
-              <button 
-                (click)="sendEmail()"
-                class="flex-1 flex items-center justify-center gap-2 bg-slate-900 hover:bg-slate-800 text-white font-bold py-4 px-6 rounded-full transition-transform active:scale-95 shadow-lg shadow-slate-900/20 cursor-pointer"
-              >
-                <svg lucideMail class="w-5 h-5"></svg>
-                Enviar por Correo
+                Consultar por WhatsApp
               </button>
             </div>
 
@@ -262,28 +255,22 @@ export class ProductDetailComponent implements OnInit {
     return 'Colección';
   }
 
-  getQuoteMessage(): string {
+  getInquiryMessage(): string {
     const p = this.product();
     if (!p) return '';
     
-    let msg = `¡Hola PeyBer! 👋 Me interesa cotizar el modelo: *${p.name}*\n\n`;
+    let msg = `¡Hola PeyBer! 👋 Estoy interesado en el modelo: *${p.name}*\n\n`;
     msg += `Detalles de mi interés:\n`;
     if (this.selectedSize()) msg += `- Talla: ${this.selectedSize()}\n`;
     if (this.selectedColor()) msg += `- Color: ${this.selectedColor()?.name}\n\n`;
-    msg += `¿Podrían ayudarme con precios y disponibilidad?`;
+    msg += `¿Me podrían dar más información y confirmar disponibilidad?`;
     
     return msg;
   }
 
   sendWhatsApp() {
-    const text = encodeURIComponent(this.getQuoteMessage());
+    const text = encodeURIComponent(this.getInquiryMessage());
     window.open(`https://wa.me/${GENERAL_INFO.phoneFormatted}?text=${text}`, '_blank');
-  }
-
-  sendEmail() {
-    const subject = encodeURIComponent(`Cotización: ${this.product()?.name}`);
-    const body = encodeURIComponent(this.getQuoteMessage());
-    window.open(`mailto:${GENERAL_INFO.email}?subject=${subject}&body=${body}`, '_blank');
   }
 }
 
