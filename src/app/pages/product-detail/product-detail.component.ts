@@ -129,23 +129,7 @@ import { CatalogService } from '../../core/catalog.service';
               </div>
             }
 
-            <!-- CTA Buttons -->
-            <div class="flex flex-col sm:flex-row gap-4 mt-auto">
-              <button 
-                (click)="sendWhatsApp()"
-                class="flex-1 flex items-center justify-center gap-2 bg-green-500 hover:bg-green-600 text-white font-bold py-4 px-6 rounded-full transition-transform active:scale-95 shadow-lg shadow-green-500/30 cursor-pointer"
-              >
-                <svg lucideMessageCircle class="w-5 h-5"></svg>
-                Cotizar por WhatsApp
-              </button>
-              <button 
-                (click)="sendEmail()"
-                class="flex-1 flex items-center justify-center gap-2 bg-slate-900 hover:bg-slate-800 text-white font-bold py-4 px-6 rounded-full transition-transform active:scale-95 shadow-lg shadow-slate-900/20 cursor-pointer"
-              >
-                <svg lucideMail class="w-5 h-5"></svg>
-                Enviar por Correo
-              </button>
-            </div>
+            <!-- CTA Buttons Removed as per user request (Showcase only) -->
 
           </div>
         </div>
@@ -260,30 +244,6 @@ export class ProductDetailComponent implements OnInit {
       return catRef.name;
     }
     return 'Colección';
-  }
-
-  getQuoteMessage(): string {
-    const p = this.product();
-    if (!p) return '';
-    
-    let msg = `¡Hola PeyBer! 👋 Me interesa cotizar el modelo: *${p.name}*\n\n`;
-    msg += `Detalles de mi interés:\n`;
-    if (this.selectedSize()) msg += `- Talla: ${this.selectedSize()}\n`;
-    if (this.selectedColor()) msg += `- Color: ${this.selectedColor()?.name}\n\n`;
-    msg += `¿Podrían ayudarme con precios y disponibilidad?`;
-    
-    return msg;
-  }
-
-  sendWhatsApp() {
-    const text = encodeURIComponent(this.getQuoteMessage());
-    window.open(`https://wa.me/${GENERAL_INFO.phoneFormatted}?text=${text}`, '_blank');
-  }
-
-  sendEmail() {
-    const subject = encodeURIComponent(`Cotización: ${this.product()?.name}`);
-    const body = encodeURIComponent(this.getQuoteMessage());
-    window.open(`mailto:${GENERAL_INFO.email}?subject=${subject}&body=${body}`, '_blank');
   }
 }
 
