@@ -129,7 +129,16 @@ import { CatalogService } from '../../core/catalog.service';
               </div>
             }
 
-            <!-- CTA Buttons Removed as per user request (Showcase only) -->
+            <!-- CTA Buttons -->
+            <div class="flex flex-col sm:flex-row gap-4 mt-auto">
+              <button 
+                (click)="sendWhatsApp()"
+                class="flex-1 flex items-center justify-center gap-2 bg-green-500 hover:bg-green-600 text-white font-bold py-4 px-6 rounded-full transition-transform active:scale-95 shadow-lg shadow-green-500/30 cursor-pointer"
+              >
+                <svg lucideMessageCircle class="w-5 h-5"></svg>
+                Consultar por WhatsApp
+              </button>
+            </div>
 
           </div>
         </div>
@@ -244,6 +253,24 @@ export class ProductDetailComponent implements OnInit {
       return catRef.name;
     }
     return 'Colección';
+  }
+
+  getInquiryMessage(): string {
+    const p = this.product();
+    if (!p) return '';
+    
+    let msg = `¡Hola PeyBer! 👋 Estoy interesado en el modelo: *${p.name}*\n\n`;
+    msg += `Detalles de mi interés:\n`;
+    if (this.selectedSize()) msg += `- Talla: ${this.selectedSize()}\n`;
+    if (this.selectedColor()) msg += `- Color: ${this.selectedColor()?.name}\n\n`;
+    msg += `¿Me podrían dar más información y confirmar disponibilidad?`;
+    
+    return msg;
+  }
+
+  sendWhatsApp() {
+    const text = encodeURIComponent(this.getInquiryMessage());
+    window.open(`https://wa.me/${GENERAL_INFO.phoneFormatted}?text=${text}`, '_blank');
   }
 }
 
